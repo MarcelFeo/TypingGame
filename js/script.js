@@ -1,9 +1,14 @@
 const typingText = document.querySelector(".typing-text p"),
 inputField = document.querySelector(".wrapper .input-field"),
-mistakeTag = document.querySelector(".mistake span");
+mistakeTag = document.querySelector(".mistake span"),
+timeTag = document.querySelector(".time span b"),
+wpmTag = document.querySelector(".time span b"),
+cpmTag = document.querySelector(".time span b");
 
-let charIndex = 0;
-let mistakes = 0;
+let timer,
+maxTime = 60,
+timeLeft = maxTime,
+charIndex = mistakes = isTyping = 0;
 
 function randomParagraph() {
     let randIndex = Math.floor(Math.random() * paragraphs.length);
@@ -19,6 +24,11 @@ function initTyping() {
     const characters = typingText.querySelectorAll("span");
     let typedChar = inputField.value.split("")[charIndex];
 
+    if(!isTyping) {
+        timer = setInterval(initTimer, 1000);
+        isTyping = true;
+    }
+
     if(typedChar == null) {
         charIndex--;
         if(characters[charIndex].classList.contains("incorrect")) {
@@ -32,7 +42,7 @@ function initTyping() {
             mistakes++;
             characters[charIndex].classList.add("incorrect");    
         }
-        
+
         charIndex++;
     }
     characters.forEach(span => span.classList.remove("active"));
@@ -40,6 +50,15 @@ function initTyping() {
 
     mistakeTag.innerText = mistakes;
 };
+
+function initTimer() {
+    if(timeLeft > 0) {
+        timeLeft--;
+        timeTag.innerText = timeLeft;
+    } else {
+        clearInterval(timer);
+    }
+}
 
 inputField.addEventListener("input", initTyping);
 
