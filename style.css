@@ -49,6 +49,28 @@ body {
     word-break: break-all;
 }
 
+.typing-text p span.active {
+    position: relative;
+}
+
+.typing-text p span.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: #17a2b8;
+    opacity: 0;
+    animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 1;
+    }
+}
+
 .typing-text p span.correct {
     color: #56964f;
 }
